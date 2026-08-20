@@ -1,0 +1,6 @@
+{
+  "name": "AOI-PCBA Intelligence System",
+  "description": "Next-generation Automated Optical Inspection (AOI) Intelligence Platform for PCBA manufacturing featuring AI Auto-Threshold Optimizer (ROC-AUC), SMT Equipment Predictive Maintenance (PdM Telemetry), Multi-Line Fleet Central Control (OEE), Deep Anomaly Golden Master Diff Engine, CAD Auto-Teaching, 3D laser solder profilometry, IPC-A-610/IPC-7711 Rework Station, IPC-CFX-2591 closed-loop feedback, and Gemini AI Root Cause Analysis.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

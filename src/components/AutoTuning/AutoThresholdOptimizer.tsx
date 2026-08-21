@@ -436,6 +436,54 @@ export const AutoThresholdOptimizer: React.FC<AutoThresholdOptimizerProps> = ({
           </table>
         </div>
       </div>
+
+      {/* ROI Offset Pending Suggestions Panel */}
+      <div
+        className={`p-5 rounded-2xl border space-y-4 ${
+          isDark ? 'bg-slate-950/80 border-slate-800' : 'bg-white border-slate-200 shadow-sm'
+        }`}
+      >
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <RefreshCw className="w-4 h-4 text-emerald-400" />
+            <h3 className="font-bold text-sm">판정 검사영역(ROI) 마스터 업데이트 제안 대기열</h3>
+            <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold">2건 대기</span>
+          </div>
+          <button className="text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded-lg shadow-md transition-colors cursor-pointer">
+            전체 승인 (Approve All)
+          </button>
+        </div>
+        
+        <div className="grid gap-3">
+          <div className={`p-3 rounded-xl border flex items-center justify-between ${isDark ? 'bg-slate-900 border-slate-800' : 'bg-slate-50 border-slate-200'}`}>
+            <div className="flex flex-col">
+              <span className={`text-xs font-bold ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>C12 (0603 Capacitor) - ROI 위치 편차 누적</span>
+              <span className={`text-[11px] mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>최근 500개 보드에서 X축 -0.2mm 이동 경향성 감지 (가성 불량 12건 유발)</span>
+            </div>
+            <div className="flex items-center space-x-4">
+              <div className="flex flex-col items-end text-xs font-mono">
+                <span className="text-slate-400 line-through">X: 12.50mm</span>
+                <span className="text-emerald-400 font-bold">X: 12.30mm (수정안)</span>
+              </div>
+              <button className="text-xs font-semibold px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-lg cursor-pointer">승인</button>
+            </div>
+          </div>
+          
+          <div className={`p-3 rounded-xl border flex items-center justify-between ${isDark ? 'bg-slate-900 border-slate-800' : 'bg-slate-50 border-slate-200'}`}>
+            <div className="flex flex-col">
+              <span className={`text-xs font-bold ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>IC3 (QFP) - 실장 회전(Rotation) 편차 누적</span>
+              <span className={`text-[11px] mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>SMT Mounter 2번 노즐 픽업 오차로 0.5도 회전 경향 발견</span>
+            </div>
+            <div className="flex items-center space-x-4">
+              <div className="flex flex-col items-end text-xs font-mono">
+                <span className="text-slate-400 line-through">Rot: 0.0°</span>
+                <span className="text-emerald-400 font-bold">Rot: 0.5° (수정안)</span>
+              </div>
+              <button className="text-xs font-semibold px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-lg cursor-pointer">승인</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

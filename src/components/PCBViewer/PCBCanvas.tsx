@@ -446,6 +446,28 @@ export const PCBCanvas: React.FC<PCBCanvasProps> = ({
       ctx.shadowBlur = 0;
     }
 
+    // 7. Render Ground Wire Exclusion Polygons from Backend
+    const groundWirePolygons = [
+      { color: 'rgba(16, 185, 129, 0.2)', stroke: '#10b981', points: [[20, 25], [30, 22], [35, 30], [25, 35]] },
+      { color: 'rgba(239, 68, 68, 0.15)', stroke: '#ef4444', points: [[70, 80], [85, 75], [80, 90], [65, 92]] },
+    ];
+    
+    groundWirePolygons.forEach(poly => {
+      ctx.beginPath();
+      ctx.moveTo(poly.points[0][0], poly.points[0][1]);
+      for (let i = 1; i < poly.points.length; i++) {
+        ctx.lineTo(poly.points[i][0], poly.points[i][1]);
+      }
+      ctx.closePath();
+      ctx.fillStyle = poly.color;
+      ctx.fill();
+      ctx.lineWidth = 0.8;
+      ctx.strokeStyle = poly.stroke;
+      ctx.setLineDash([2, 2]);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    });
+
     ctx.restore();
   }, [
     board,

@@ -210,7 +210,7 @@ export const SPCDashboard: React.FC<SPCDashboardProps> = ({
 
             {/* Parameter Selector */}
             <div
-              className={`flex p-0.5 rounded-lg border text-xs ${
+              className={`flex flex-wrap p-0.5 rounded-lg border text-xs ${
                 isDark ? 'bg-slate-900/90 border-slate-700' : 'bg-slate-100 border-slate-200'
               }`}
             >

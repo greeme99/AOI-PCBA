@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
+import { motion, PanInfo, useAnimation } from 'motion/react';
 import {
   Sun,
   Eye,
@@ -10,6 +11,8 @@ import {
   Square,
   Camera,
   Smartphone,
+  GripVertical,
+  GripHorizontal,
 } from 'lucide-react';
 import { LightingMode, ThemeMode, CameraAngle } from '../../types/aoi';
 
@@ -63,6 +66,32 @@ export const PCBToolbar: React.FC<PCBToolbarProps> = ({
   themeMode = 'dark',
 }) => {
   const isDark = themeMode === 'dark';
+  const [isVertical, setIsVertical] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const controls = useAnimation();
+
+  const handleDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+    // Window width 기준으로 약 우측 350px 이내로 드롭되면 세로 모양(flex-col)으로 스냅
+    if (info.point.x > window.innerWidth - 350) {
+      setIsVertical(true);
+      // 우측(새로운 Flex 위치)으로 부드럽게 스냅
+      controls.start({ x: 0, y: 0, transition: { type: 'spring', stiffness: 300, damping: 30 } });
+    } else {
+      if (isVertical) {
+        setIsVertical(false);
+        // 중앙 하단(원래 Flex 위치)으로 부드럽게 스냅
+        controls.start({ x: 0, y: 0, transition: { type: 'spring', stiffness: 300, damping: 30 } });
+      }
+    }
+  };
+
+  const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
+    // 세로 휠(스크롤)을 가로 스크롤로 변환
+    if (scrollRef.current && !isVertical) {
+      scrollRef.current.scrollLeft += e.deltaY;
+    }
+  };
 
   const lightingOptions: Array<{ id: LightingMode; label: string; iconColor: string }> = [
     { id: 'COMPOSITE_RGB', label: 'True RGB', iconColor: isDark ? 'text-white' : 'text-slate-800' },
@@ -82,17 +111,42 @@ export const PCBToolbar: React.FC<PCBToolbarProps> = ({
   ];
 
   return (
-    <div
-      id="pcb-toolbar"
-      className={`border-b px-4 py-2 flex flex-wrap items-center justify-between gap-3 text-xs select-none transition-colors duration-200 ${
-        isDark
-          ? 'bg-[#1e293b] border-slate-700 text-slate-200'
-          : 'bg-white border-slate-200 text-slate-700 shadow-2xs'
-      }`}
-    >
+    <div ref={containerRef} className={`absolute inset-4 z-20 pointer-events-none flex overflow-hidden transition-all duration-500 ${
+      isVertical ? 'items-center justify-end pr-2' : 'items-end justify-center pb-2'
+    }`}>
+      <motion.div
+        layout
+        drag
+        dragConstraints={containerRef}
+        dragElastic={0.1}
+        dragMomentum={false}
+        animate={controls}
+        onDragEnd={handleDragEnd}
+        onWheel={handleWheel}
+        ref={scrollRef}
+        id="pcb-toolbar"
+        className={`pointer-events-auto flex gap-2.5 px-3 py-2 rounded-2xl border shadow-2xl backdrop-blur-xl text-xs select-none transition-colors duration-300 ${
+          isVertical ? 'flex-col max-h-full overflow-y-auto' : 'flex-row overflow-x-auto w-max max-w-full'
+        } ${
+          isDark
+            ? 'bg-slate-900/85 border-slate-700/50 text-slate-200 shadow-black/50 scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent'
+            : 'bg-white/85 border-slate-200/50 text-slate-700 shadow-slate-300/50 scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-transparent'
+        }`}
+        // 터치 기기에서 드래그와 스크롤이 충돌하지 않도록 방지
+        style={{ touchAction: 'none' }}
+      >
+      {/* Drag Handle */}
+      <div
+        className={`flex items-center justify-center cursor-grab active:cursor-grabbing p-1 rounded-lg shrink-0 ${
+          isDark ? 'hover:bg-slate-800' : 'hover:bg-slate-200'
+        } ${isVertical ? 'w-full' : ''}`}
+        title="Drag to move Toolbar"
+      >
+        {isVertical ? <GripHorizontal className="w-4 h-4 text-slate-500" /> : <GripVertical className="w-4 h-4 text-slate-500" />}
+      </div>
       {/* Group 1: Lighting Modes */}
       <div
-        className={`flex items-center space-x-1 p-1 rounded-lg border ${
+        className={`flex items-center space-x-1 p-1 rounded-lg border shrink-0 ${
           isDark
             ? 'bg-slate-900/90 border-slate-700/80'
             : 'bg-slate-50 border-slate-200'
@@ -322,6 +376,7 @@ export const PCBToolbar: React.FC<PCBToolbarProps> = ({
           <span>Phone / QR Cam</span>
         </button>
       )}
+      </motion.div>
     </div>
   );
 };

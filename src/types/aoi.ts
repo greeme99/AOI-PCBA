@@ -119,6 +119,8 @@ export interface SMTLineStatus {
   tactTime: number; // seconds
   dpmO: number; // Defect per million opportunities
   activeDefectTrend: number[];
+  oee?: number;
+  operatorId?: string;
 }
 
 export interface SPCDataPoint {

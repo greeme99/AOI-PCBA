@@ -178,6 +178,25 @@ npm start
 
 ---
 
+## 🚀 무료 배포 가이드 (Render Web Service)
+
+이 프로젝트는 React/Vite 프론트엔드와 Express API 서버를 함께 사용하므로 정적 호스팅(GitHub Pages 등)만으로는 `/api/*` 기능과 Gemini 연동이 동작하지 않습니다. 무료로 전체 기능을 배포하려면 Render Web Service를 권장합니다.
+
+### 1. Render에서 Blueprint 배포
+1. Render Dashboard에서 **New > Blueprint**를 선택합니다.
+2. GitHub 저장소 `https://github.com/greeme99/AOI-PCBA`를 연결합니다.
+3. 루트의 `render.yaml`을 Blueprint 파일로 선택합니다.
+4. `GEMINI_API_KEY` 값을 Render 환경 변수로 입력합니다.
+5. 배포가 완료되면 Render가 발급한 `https://<service-name>.onrender.com` 주소로 접속합니다.
+
+### 2. 배포 설정
+- Build Command: `npm ci && npm run build`
+- Start Command: `npm run start`
+- Health Check Path: `/api/health`
+- Free Plan: 유휴 상태가 길면 cold start가 발생할 수 있습니다.
+
+---
+
 ## 🔄 개발 및 변경 이력 관리 (Changelog)
 
 > 모든 향후 기능 추가, 수정 및 배포 이력은 아래 Changelog에 실시간으로 업데이트됩니다.

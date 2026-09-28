@@ -1,9 +1,11 @@
 services:
   - type: web
     name: aoi-pcba-intelligence
-    env: node
-    buildCommand: npm install && npm run build
+    runtime: node
+    plan: free
+    buildCommand: npm ci && npm run build
     startCommand: npm run start
+    healthCheckPath: /api/health
     envVars:
       - key: NODE_ENV
         value: production

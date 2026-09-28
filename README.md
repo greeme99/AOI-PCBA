@@ -182,6 +182,8 @@ npm start
 
 이 프로젝트는 React/Vite 프론트엔드와 Express API 서버를 함께 사용하므로 정적 호스팅(GitHub Pages 등)만으로는 `/api/*` 기능과 Gemini 연동이 동작하지 않습니다. 무료로 전체 기능을 배포하려면 Render Web Service를 권장합니다.
 
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/greeme99/AOI-PCBA)
+
 ### 1. Render에서 Blueprint 배포
 1. Render Dashboard에서 **New > Blueprint**를 선택합니다.
 2. GitHub 저장소 `https://github.com/greeme99/AOI-PCBA`를 연결합니다.
